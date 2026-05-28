@@ -444,4 +444,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('homefinder', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/evandro/Transferências/HomeFinder_v2_estrutura_imobiliaria/resources/views/pages/feed.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('homefinder', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/evandro/Documentos/HomeFinder_v2_estrutura_imobiliaria/resources/views/pages/feed.blade.php ENDPATH**/ ?>

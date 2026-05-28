@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'HomeFinder — Imóveis em Angola')</title>
-    <meta name="description" content="@yield('description', 'Compre, venda ou arrende imóveis em Angola com a HomeFinder.')">
+    <title><?php echo $__env->yieldContent('title', 'HomeFinder — Imóveis em Angola'); ?></title>
+    <meta name="description" content="<?php echo $__env->yieldContent('description', 'Compre, venda ou arrende imóveis em Angola com a HomeFinder.'); ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
@@ -370,48 +370,50 @@
         }
     </style>
 
-    @yield('head')
+    <?php echo $__env->yieldContent('head'); ?>
 </head>
 <body>
 
 <header class="site-header">
-    <a href="{{ route('HomeFinder') }}" class="logo">
+    <a href="<?php echo e(route('HomeFinder')); ?>" class="logo">
         Home<span class="logo-dot">Finder</span>
         <span class="logo-badge">AO</span>
     </a>
     <nav class="header-nav">
-        @auth
-            <a href="{{ route('imoveis.create') }}" class="nav-link nav-cta">
+        <?php if(auth()->guard()->check()): ?>
+            <a href="<?php echo e(route('imoveis.create')); ?>" class="nav-link nav-cta">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Publicar Imóvel
             </a>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
+            <form action="<?php echo e(route('logout')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
                 <button type="submit" class="nav-link">Sair</button>
             </form>
-        @else
-            <a href="{{ route('login') }}" class="nav-link">Entrar</a>
-            <a href="{{ route('clientes.create') }}" class="nav-link nav-cta">
+        <?php else: ?>
+            <a href="<?php echo e(route('login')); ?>" class="nav-link">Entrar</a>
+            <a href="<?php echo e(route('clientes.create')); ?>" class="nav-link nav-cta">
                 Criar conta
             </a>
-        @endauth
+        <?php endif; ?>
     </nav>
 </header>
 
-@if(session('success'))
+<?php if(session('success')): ?>
     <div id="toast" class="success">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        {{ session('success') }}
+        <?php echo e(session('success')); ?>
+
     </div>
-@elseif(session('error'))
+<?php elseif(session('error')): ?>
     <div id="toast" class="error">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        {{ session('error') }}
+        <?php echo e(session('error')); ?>
+
     </div>
-@endif
+<?php endif; ?>
 
 <main>
-    @yield('content')
+    <?php echo $__env->yieldContent('content'); ?>
 </main>
 
 <footer class="site-footer">
@@ -448,6 +450,7 @@
     }
 </script>
 
-@yield('scripts')
+<?php echo $__env->yieldContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH /home/evandro/Documentos/HomeFinder_v2_estrutura_imobiliaria/resources/views/homefinder.blade.php ENDPATH**/ ?>

@@ -405,10 +405,12 @@
 
                     <div class="imovel-footer">
                         <div class="imovel-attrs">
+                        
                             @if($imovel->quartos)
                                 <span class="attr-pill"> {{ $imovel->quartos }}</span>
                             @endif
                             @if($imovel->banheiros)
+            
                                 <span class="attr-pill"> {{ $imovel->banheiros }}</span>
                             @endif
                             @if($imovel->area_m2)

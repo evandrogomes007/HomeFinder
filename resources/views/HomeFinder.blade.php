@@ -10,10 +10,10 @@
     <style>
         /* ─── TOKENS ───────────────────────────────────────────────── */
         :root {
-            --red:       #C0392B;
-            --red-dark:  #922B21;
-            --cream:     #FDF8F3;
-            --sand:      #EDE8E0;
+            --red:       #ffffff;
+            --red-dark:  #ceb8b6;
+            --cream:     #d8924c;
+            --sand:      #a79f94;
             --charcoal:  #1C1C1E;
             --gray:      #6B6B6B;
             --border:    #D9D3CB;
