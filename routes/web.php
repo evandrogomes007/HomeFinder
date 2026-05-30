@@ -35,4 +35,6 @@ Route::middleware('auth')->group(function () {
     // Imóveis
     Route::get('/publicar',   [ImovelController::class, 'create'])->name('imoveis.create');
     Route::post('/publicar',  [ImovelController::class, 'store'])->name('imoveis.store');
+    Route::get('/meus-imoveis', [ImovelController::class, 'meusImoveis'])->name('imoveis.meu');
+    Route::delete('/imoveis/{imovel}', [ImovelController::class, 'destroy'])->name('imoveis.destroy');
 });

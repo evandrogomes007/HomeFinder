@@ -381,6 +381,7 @@
     </a>
     <nav class="header-nav">
         <?php if(auth()->guard()->check()): ?>
+            <a href="<?php echo e(route('imoveis.meu')); ?>" class="nav-link nav-cta">Meus Imóveis</a>
             <a href="<?php echo e(route('imoveis.create')); ?>" class="nav-link nav-cta">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Publicar Imóvel
@@ -469,7 +470,8 @@
             
             const img = document.createElement('img');
             img.src = '/storage/' + path;
-            img.style.maxHeight = '75vh';
+            img.style.minWidth = '100%';
+            img.style.maxWidth = '100%';
             img.style.borderRadius = '8px';
             img.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
             

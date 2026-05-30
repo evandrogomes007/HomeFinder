@@ -51,4 +51,37 @@ class ImovelController extends Controller
             ->route('HomeFinder')
             ->with('success', 'Imóvel publicado com sucesso! Já está visível no feed.');
     }
+
+    public function meusImoveis()
+    {
+        $imoveis = Imovel::where('cliente_id', Auth::id())
+            ->latest()
+            ->paginate(10);
+
+        return view('pages.my-properties', compact('imoveis'));
+    }
+
+    /**
+     * Excluir Imóvel
+     */
+    public function destroy(Imovel $imovel)
+    {
+        // Verifica se o imóvel pertence ao usuário logado
+        if ($imovel->cliente_id !== Auth::id()) {
+            abort(403, 'Não autorizado.');
+        }
+
+        // Deletar imagens do storage
+        if (!empty($imovel->imagens)) {
+            foreach ($imovel->imagens as $imagem) {
+                Storage::disk('public')->delete($imagem);
+            }
+        }
+
+        $imovel->delete();
+
+        return redirect()
+            ->route('imoveis.meu')
+            ->with('success', 'Imóvel excluído com sucesso!');
+    }
 }
