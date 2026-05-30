@@ -70,4 +70,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('homefinder', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/evandro/Transferências/HomeFinder_v2_estrutura_imobiliaria/resources/views/pages/login.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('homefinder', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\jacir\Documents\gabi\HomeFinder\resources\views/pages/login.blade.php ENDPATH**/ ?>

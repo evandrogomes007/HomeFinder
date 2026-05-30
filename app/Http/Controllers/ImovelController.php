@@ -32,14 +32,18 @@ class ImovelController extends Controller
         $data['ativo']      = true;
 
         // Upload de múltiplas imagens
+        $imagensPaths = [];
+
         if ($request->hasFile('imagens')) {
-            $imagens = [];
             foreach ($request->file('imagens') as $imagem) {
-                $path = $imagem->store('imoveis', 'public');
-                $imagens[] = $path;
+                if ($imagem->isValid()) {
+                    $path = $imagem->store('imoveis', 'public');
+                    $imagensPaths[] = $path;
+                }
             }
-            $data['imagens'] = $imagens;
         }
+
+        $data['imagens'] = $imagensPaths;
 
         Imovel::create($data);
 

@@ -22,15 +22,18 @@ class StoreImovelRequest extends FormRequest
             'quartos'      => 'nullable|integer|min:0',
             'banheiros'    => 'nullable|integer|min:0',
             'area_m2'      => 'nullable|integer|min:10',
-            'imagens.*'    => 'image|mimes:jpeg,png,jpg,webp|max:5120', // 5MB por imagem
+            'imagens'      => 'required|array|min:1|max:6',           // Máximo 6 imagens
+            'imagens.*'    => 'image|mimes:jpg,jpeg,png,webp|max:5120', // 5MB por imagem
         ];
     }
 
     public function messages(): array
     {
         return [
-            'imagens.*.image' => 'Apenas imagens são permitidas.',
-            'imagens.*.max'   => 'Cada imagem não pode ter mais de 5MB.',
+            'imagens.required' => 'É obrigatório enviar pelo menos uma imagem.',
+            'imagens.max'      => 'Você pode enviar no máximo 6 imagens.',
+            'imagens.*.image'  => 'Todos os arquivos devem ser imagens.',
+            'imagens.*.max'    => 'Cada imagem não pode ter mais de 5MB.',
         ];
     }
 }

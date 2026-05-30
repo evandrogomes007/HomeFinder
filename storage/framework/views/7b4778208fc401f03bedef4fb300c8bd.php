@@ -372,27 +372,26 @@
 <section class="feed-section">
     <div class="imoveis-grid">
         <?php $__empty_1 = true; $__currentLoopData = $imoveis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $imovel): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <article class="imovel-card">
+            <article class="imovel-card" onclick="showImageGallery(<?php echo e($imovel->id); ?>)">
+                
                 <div class="imovel-img-wrap">
-                    <?php if(!empty($imovel->imagens)): ?>
-                        <img class="imovel-img"
-                             src="<?php echo e(Storage::url($imovel->imagens[0])); ?>"
+                    <?php if(!empty($imovel->imagens) && count($imovel->imagens) > 0): ?>
+                        <img src="<?php echo e(Storage::url($imovel->imagens[0])); ?>" 
+                             class="imovel-img" 
                              alt="<?php echo e($imovel->titulo); ?>"
-                             loading="lazy">
+                             onerror="this.src='https://via.placeholder.com/600x400?text=Sem+Imagem'">
                     <?php else: ?>
                         <div class="imovel-img-placeholder">
-                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                            <span style="font-size:.72rem; font-weight:600;">Sem imagem</span>
+                            <span>Sem imagem</span>
                         </div>
-                    <?php endif; ?>
-                    <span class="imovel-tipo-badge"><?php echo e($imovel->tipo ?? 'Imóvel'); ?></span>
+                    <?php endif; ?>>
+                    <span class="imovel-tipo-badge"><?php echo e(ucfirst($imovel->tipo ?? 'Imóvel')); ?></span>
                 </div>
 
                 <div class="imovel-body">
                     <h3 class="imovel-titulo"><?php echo e($imovel->titulo); ?></h3>
 
                     <p class="imovel-local">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         <?php echo e($imovel->localizacao); ?>
 
                     </p>
@@ -404,16 +403,14 @@
 
                     <div class="imovel-footer">
                         <div class="imovel-attrs">
-                        
                             <?php if($imovel->quartos): ?>
-                                <span class="attr-pill"> <?php echo e($imovel->quartos); ?></span>
+                                <span class="attr-pill"><?php echo e($imovel->quartos); ?> Quartos</span>
                             <?php endif; ?>
                             <?php if($imovel->banheiros): ?>
-            
-                                <span class="attr-pill"> <?php echo e($imovel->banheiros); ?></span>
+                                <span class="attr-pill"><?php echo e($imovel->banheiros); ?> Banheiros</span>
                             <?php endif; ?>
                             <?php if($imovel->area_m2): ?>
-                                <span class="attr-pill"> <?php echo e($imovel->area_m2); ?>m²</span>
+                                <span class="attr-pill"><?php echo e($imovel->area_m2); ?> m²</span>
                             <?php endif; ?>
                         </div>
                         <span class="imovel-vendedor">
@@ -425,11 +422,8 @@
             </article>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <div class="empty-state">
-                <div class="empty-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                </div>
                 <h3>Nenhum imóvel encontrado</h3>
-                <p>Tente outra pesquisa ou <a href="<?php echo e(route('HomeFinder')); ?>" style="color:var(--brand);font-weight:600;">ver todos os imóveis</a>.</p>
+                <p>Tente outra pesquisa.</p>
             </div>
         <?php endif; ?>
     </div>
@@ -444,4 +438,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('homefinder', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/evandro/Documentos/HomeFinder_v2_estrutura_imobiliaria/resources/views/pages/feed.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('homefinder', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\jacir\Documents\gabi\HomeFinder\resources\views/pages/feed.blade.php ENDPATH**/ ?>

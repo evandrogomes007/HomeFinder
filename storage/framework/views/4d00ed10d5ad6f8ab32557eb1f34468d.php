@@ -414,6 +414,14 @@
 
 <main>
     <?php echo $__env->yieldContent('content'); ?>
+    <!-- MODAL DE GALERIA DE IMAGENS -->
+    <div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:10000; align-items:center; justify-content:center;">
+    <div style="max-width:95%; max-height:95%; position:relative;">
+            <button onclick="closeModal()" 
+                    style="position:absolute; top:-50px; right:10px; color:white; font-size:40px; background:none; border:none; cursor:pointer;">×</button>
+            <div id="modalImages" style="display:flex; gap:15px; overflow-x:auto; padding:10px;"></div>
+        </div>
+    </div>
 </main>
 
 <footer class="site-footer">
@@ -441,6 +449,52 @@
 </footer>
 
 <script>
+    let currentImoveis = <?php echo json_encode($currentImoveis ?? [], 15, 512) ?>;
+
+    function showImageGallery(imovelId) {
+        const imovel = currentImoveis.find(i => i.id == imovelId);
+        
+        if (!imovel || !imovel.imagens || imovel.imagens.length === 0) {
+            alert("Este imóvel não possui outras imagens.");
+            return;
+        }
+
+        const container = document.getElementById('modalImages');
+        container.innerHTML = '';
+
+        imovel.imagens.forEach((path, index) => {
+            const div = document.createElement('div');
+            div.style.minWidth = '300px';
+            div.style.textAlign = 'center';
+            
+            const img = document.createElement('img');
+            img.src = '/storage/' + path;
+            img.style.maxHeight = '75vh';
+            img.style.borderRadius = '8px';
+            img.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
+            
+            const caption = document.createElement('p');
+            caption.textContent = `Imagem ${index + 1} de ${imovel.imagens.length}`;
+            caption.style.color = '#ddd';
+            caption.style.marginTop = '8px';
+            
+            div.appendChild(img);
+            div.appendChild(caption);
+            container.appendChild(div);
+        });
+
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+
+    // Fechar ao clicar fora
+    document.getElementById('imageModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+    
     const toast = document.getElementById('toast');
     if (toast) {
         requestAnimationFrame(() => {
@@ -453,4 +507,4 @@
 <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 </html>
-<?php /**PATH /home/evandro/Documentos/HomeFinder_v2_estrutura_imobiliaria/resources/views/homefinder.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\jacir\Documents\gabi\HomeFinder\resources\views/homefinder.blade.php ENDPATH**/ ?>

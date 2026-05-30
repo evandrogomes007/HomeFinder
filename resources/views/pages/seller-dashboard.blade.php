@@ -206,7 +206,12 @@
             </h3>
 
             <div class="upload-zone" onclick="document.getElementById('imagens').click()">
-                <input id="imagens" type="file" name="imagens[]" multiple accept="image/jpeg,image/png,image/webp">
+                <input type="file" 
+                id="imagens"
+               name="imagens[]" 
+               multiple 
+               accept="image/jpeg,image/png,image/webp" 
+               required>
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5" style="margin:0 auto;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                 <p style="margin-top:10px;"><strong>Clique para selecionar imagens</strong></p>
                 <p>JPEG, PNG, WebP — máx. 5MB por imagem</p>

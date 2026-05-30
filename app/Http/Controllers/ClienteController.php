@@ -37,7 +37,10 @@ class ClienteController extends Controller
             ->latest()
             ->paginate(12);
 
-        return view('pages.feed', compact('imoveis'));
+        return view('pages.feed', [
+        'imoveis' => $imoveis,
+        'currentImoveis' => $imoveis->items()
+    ]   );
     }
 
     // ── Formulário de registo ─────────────────────────────────────────────────
