@@ -87,18 +87,39 @@
 
 <div class="publish-wrap">
 
-    <div class="publish-header">
-        <span class="card-eyebrow" style="display:block; margin-bottom:6px;">Publicação de imóvel</span>
-        <h1 style="font-family:var(--font-h); font-size:1.9rem; font-weight:900; color:var(--charcoal); margin-bottom:8px;">
-            Publicar o seu imóvel
-        </h1>
-        <p style="font-size:.88rem; color:var(--gray-600);">
-            Preencha os dados abaixo. O seu anúncio ficará visível no feed imediatamente.
-        </p>
-    </div>
+    <?php if(isset($modoEdicao) && $modoEdicao): ?>
+        <div class="publish-header">
+            <span class="card-eyebrow" style="display:block; margin-bottom:6px;">Edição de imóveis</span>
+            <h1 style="font-family:var(--font-h); font-size:1.9rem; font-weight:900; color:var(--charcoal); margin-bottom:8px;">
+                Editar o seu imóvel
+            </h1>
+            <p style="font-size:.88rem; color:var(--gray-600);">
+                Atualze a sua publicação, alterando os dados abaixo.
+            </p>
+        </div>
+        
+    <?php else: ?>
+        <div class="publish-header">
+            <span class="card-eyebrow" style="display:block; margin-bottom:6px;">Publicação de imóvel</span>
+            <h1 style="font-family:var(--font-h); font-size:1.9rem; font-weight:900; color:var(--charcoal); margin-bottom:8px;">
+                Publicar o seu imóvel
+            </h1>
+            <p style="font-size:.88rem; color:var(--gray-600);">
+                Preencha os dados abaixo. O seu anúncio ficará visível no feed imediatamente.
+            </p>
+        </div>
+    <?php endif; ?>
 
-    <form action="<?php echo e(route('imoveis.store')); ?>" method="POST" enctype="multipart/form-data" style="max-width:760px; margin:0 auto;" novalidate>
+    <form action="<?php echo e(isset($modoEdicao) && $modoEdicao
+        ? route('imoveis.update', ['imovel' => $imovel])
+        : route('imoveis.store')); ?>"
+        method="POST"
+        enctype="multipart/form-data" style="max-width:760px; margin:0 auto;" novalidate>
         <?php echo csrf_field(); ?>
+
+        <?php if( isset($modoEdicao) && $modoEdicao ): ?>
+            <?php echo method_field('PUT'); ?>
+        <?php endif; ?>
 
         
         <div class="section-block">
@@ -109,7 +130,7 @@
             <div class="form-group">
                 <label class="form-label" for="titulo">Título do anúncio</label>
                 <input id="titulo" type="text" name="titulo"
-                       value="<?php echo e(old('titulo')); ?>"
+                       value="<?php echo e(old('titulo', $imovel->titulo ?? '')); ?>"
                        placeholder="Ex: Moradia T3 no Talatona com garagem"
                        required>
             </div>
@@ -118,19 +139,19 @@
                 <div class="form-group" style="margin-bottom:0;">
                     <label class="form-label" for="tipo">Tipo de imóvel</label>
                     <select id="tipo" name="tipo" required>
-                        <option value="" disabled <?php echo e(old('tipo') ? '' : 'selected'); ?>>Selecionar</option>
-                        <option value="casa"        <?php echo e(old('tipo') == 'casa'        ? 'selected' : ''); ?>>Casa / Moradia</option>
-                        <option value="apartamento" <?php echo e(old('tipo') == 'apartamento' ? 'selected' : ''); ?>>Apartamento</option>
-                        <option value="terreno"     <?php echo e(old('tipo') == 'terreno'     ? 'selected' : ''); ?>>Terreno</option>
-                        <option value="quintal"     <?php echo e(old('tipo') == 'quintal'     ? 'selected' : ''); ?>>Quintal</option>
-                        <option value="comercial"   <?php echo e(old('tipo') == 'comercial'   ? 'selected' : ''); ?>>Espaço Comercial</option>
+                        <option value="" disabled <?php echo e(old('tipo', $imovel->tipo ?? '') ? '' : 'selected'); ?>>Selecionar</option>
+                        <option value="casa"        <?php echo e(old('tipo', $imovel->tipo ?? '') == 'casa'        ? 'selected' : ''); ?>>Casa / Moradia</option>
+                        <option value="apartamento" <?php echo e(old('tipo', $imovel->tipo ?? '') == 'apartamento' ? 'selected' : ''); ?>>Apartamento</option>
+                        <option value="terreno"     <?php echo e(old('tipo', $imovel->tipo ?? '') == 'terreno'     ? 'selected' : ''); ?>>Terreno</option>
+                        <option value="quintal"     <?php echo e(old('tipo', $imovel->tipo ?? '') == 'quintal'     ? 'selected' : ''); ?>>Quintal</option>
+                        <option value="comercial"   <?php echo e(old('tipo', $imovel->tipo ?? '') == 'comercial'   ? 'selected' : ''); ?>>Espaço Comercial</option>
                     </select>
                 </div>
 
                 <div class="form-group" style="margin-bottom:0;">
                     <label class="form-label" for="localizacao">Localização / Bairro</label>
                     <input id="localizacao" type="text" name="localizacao"
-                           value="<?php echo e(old('localizacao')); ?>"
+                           value="<?php echo e(old('localizacao', $imovel->localizacao ?? '')); ?>"
                            placeholder="Ex: Talatona, Luanda"
                            required>
                 </div>
@@ -141,7 +162,7 @@
                 <textarea id="descricao" name="descricao"
                           placeholder="Descreva o imóvel: características, estado de conservação, proximidades, etc."
                           rows="4"
-                          required><?php echo e(old('descricao')); ?></textarea>
+                          required><?php echo e(old('descricao', $imovel->descricao ?? '')); ?></textarea>
             </div>
         </div>
 
@@ -155,7 +176,7 @@
                 <div class="form-group" style="margin-bottom:0;">
                     <label class="form-label" for="preco">Preço (Kz)</label>
                     <input id="preco" type="number" name="preco"
-                           value="<?php echo e(old('preco')); ?>"
+                           value="<?php echo e(old('preco', $imovel->preco ?? '')); ?>"
                            placeholder="Ex: 12000000"
                            min="1000"
                            required>
@@ -164,7 +185,7 @@
                 <div class="form-group" style="margin-bottom:0;">
                     <label class="form-label" for="area_m2">Área (m²)</label>
                     <input id="area_m2" type="number" name="area_m2"
-                           value="<?php echo e(old('area_m2')); ?>"
+                           value="<?php echo e(old('area_m2', $imovel->area_m2 ?? '')); ?>"
                            placeholder="Ex: 120"
                            min="10">
                 </div>
@@ -176,7 +197,7 @@
                     <select id="quartos" name="quartos">
                         <option value="">— Não se aplica</option>
                         <?php for($i = 0; $i <= 8; $i++): ?>
-                            <option value="<?php echo e($i); ?>" <?php echo e(old('quartos') == $i ? 'selected' : ''); ?>>
+                            <option value="<?php echo e($i); ?>" <?php echo e(old('quartos', $imovel->quartos ?? '') == $i ? 'selected' : ''); ?>>
                                 <?php echo e($i == 0 ? 'Estúdio' : $i . ($i == 1 ? ' quarto' : ' quartos')); ?>
 
                             </option>
@@ -189,7 +210,7 @@
                     <select id="banheiros" name="banheiros">
                         <option value="">— Não se aplica</option>
                         <?php for($i = 1; $i <= 6; $i++): ?>
-                            <option value="<?php echo e($i); ?>" <?php echo e(old('banheiros') == $i ? 'selected' : ''); ?>>
+                            <option value="<?php echo e($i); ?>" <?php echo e(old('banheiros', $imovel->banheiros ?? '') == $i ? 'selected' : ''); ?>>
                                 <?php echo e($i . ($i == 1 ? ' casa de banho' : ' casas de banho')); ?>
 
                             </option>
@@ -200,24 +221,26 @@
         </div>
 
         
-        <div class="section-block">
-            <h3 class="section-block-title">
-                <span>3</span> Fotografias do Imóvel
-            </h3>
+        <?php if(!(isset($modoEdicao) && $modoEdicao)): ?>
+            <div class="section-block">
+                <h3 class="section-block-title">
+                    <span>3</span> Fotografias do Imóvel
+                </h3>
 
-            <div class="upload-zone" onclick="document.getElementById('imagens').click()">
-                <input type="file" 
-                id="imagens"
-               name="imagens[]" 
-               multiple 
-               accept="image/jpeg,image/png,image/webp" 
-               required>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5" style="margin:0 auto;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                <p style="margin-top:10px;"><strong>Clique para selecionar imagens</strong></p>
-                <p>JPEG, PNG, WebP — máx. 5MB por imagem</p>
-                <p id="file-names" style="margin-top:8px; color:var(--brand); font-weight:600; font-size:.82rem;"></p>
+                <div class="upload-zone" onclick="document.getElementById('imagens').click()">
+                    <input type="file" 
+                    id="imagens"
+                name="imagens[]" 
+                multiple 
+                accept="image/jpeg,image/png,image/webp" 
+                required>
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5" style="margin:0 auto;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <p style="margin-top:10px;"><strong>Clique para selecionar imagens</strong></p>
+                    <p>JPEG, PNG, WebP — máx. 5MB por imagem</p>
+                    <p id="file-names" style="margin-top:8px; color:var(--brand); font-weight:600; font-size:.82rem;"></p>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <?php if($errors->any()): ?>
             <div class="alert" style="margin-bottom:18px;">
@@ -237,7 +260,9 @@
             </a>
             <button type="submit" class="btn btn-brand" style="flex:1;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 2 11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                Publicar Imóvel
+                <?php echo e(isset($modoEdicao) && $modoEdicao ? 'Alterar Publicação' : 'Publicar Imóvel'); ?>
+
+                
             </button>
         </div>
 

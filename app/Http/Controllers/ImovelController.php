@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImovelRequest;
+use App\Http\Requests\UpdateImovelRequest;
 use App\Models\Imovel;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -18,9 +20,11 @@ class ImovelController extends Controller
     }
 
     // Formulário de publicação
-    public function create(): View
+    public function create()
     {
-        return view('pages.seller-dashboard');
+        return view('pages.seller-dashboard', [
+            'modoEdicao' => false
+        ]);
     }
 
     // Salvar imóvel + imagens
@@ -51,6 +55,39 @@ class ImovelController extends Controller
             ->route('HomeFinder')
             ->with('success', 'Imóvel publicado com sucesso! Já está visível no feed.');
     }
+
+    public function show(Imovel $imovel)
+    {
+        return view('pages.property-show', compact('imovel'));
+    }
+
+    public function edit(Imovel $imovel)
+    {
+        if ($imovel->cliente_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return view('pages.seller-dashboard', [
+            'imovel' => $imovel,
+            'modoEdicao' => true
+        ]);
+    }
+
+    public function update(UpdateImovelRequest $request, Imovel $imovel)
+    {
+        if ($imovel->cliente_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $data = $request->validated();
+
+        $imovel->update($data);
+
+        return redirect()
+            ->route('imoveis.show', $imovel)
+            ->with('success', 'Imóvel atualizado com sucesso.');
+    }
+
 
     public function meusImoveis()
     {

@@ -470,8 +470,7 @@
             
             const img = document.createElement('img');
             img.src = '/storage/' + path;
-            img.style.minWidth = '100%';
-            img.style.maxWidth = '100%';
+            img.style.maxWidth = '75vh';
             img.style.borderRadius = '8px';
             img.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
             
