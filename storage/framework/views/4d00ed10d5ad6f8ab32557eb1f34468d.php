@@ -449,54 +449,7 @@
     </div>
 </footer>
 
-<script>
-    let currentImoveis = <?php echo json_encode($currentImoveis ?? [], 15, 512) ?>;
-
-    function showImageGallery(imovelId) {
-        const imovel = currentImoveis.find(i => i.id == imovelId);
-        
-        if (!imovel || !imovel.imagens || imovel.imagens.length === 0) {
-            alert("Este imóvel não possui outras imagens.");
-            return;
-        }
-
-        const container = document.getElementById('modalImages');
-        container.innerHTML = '';
-
-        imovel.imagens.forEach((path, index) => {
-            const div = document.createElement('div');
-            div.style.minWidth = '300px';
-            div.style.textAlign = 'center';
-            
-            const img = document.createElement('img');
-            img.src = '/storage/' + path;
-            img.style.minWidth = '100%';
-            img.style.maxWidth = '100%';
-            img.style.borderRadius = '8px';
-            img.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
-            
-            const caption = document.createElement('p');
-            caption.textContent = `Imagem ${index + 1} de ${imovel.imagens.length}`;
-            caption.style.color = '#ddd';
-            caption.style.marginTop = '8px';
-            
-            div.appendChild(img);
-            div.appendChild(caption);
-            container.appendChild(div);
-        });
-
-        document.getElementById('imageModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('imageModal').style.display = 'none';
-    }
-
-    // Fechar ao clicar fora
-    document.getElementById('imageModal').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
-    
+<script> 
     const toast = document.getElementById('toast');
     if (toast) {
         requestAnimationFrame(() => {

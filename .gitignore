@@ -22,5 +22,5 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-\storage\app\public\imoveis
-\storage\framework
+/storage/framework/views
+/storage/app/public/

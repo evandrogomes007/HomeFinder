@@ -370,23 +370,26 @@
 
 
 <section class="feed-section">
+    
     <div class="imoveis-grid">
         <?php $__empty_1 = true; $__currentLoopData = $imoveis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $imovel): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <article class="imovel-card" onclick="showImageGallery(<?php echo e($imovel->id); ?>)">
-                
-                <div class="imovel-img-wrap">
-                    <?php if(!empty($imovel->imagens) && count($imovel->imagens) > 0): ?>
-                        <img src="<?php echo e(Storage::url($imovel->imagens[0])); ?>" 
-                             class="imovel-img" 
-                             alt="<?php echo e($imovel->titulo); ?>"
-                             onerror="this.src='https://via.placeholder.com/600x400?text=Sem+Imagem'">
-                    <?php else: ?>
-                        <div class="imovel-img-placeholder">
-                            <span>Sem imagem</span>
-                        </div>
-                    <?php endif; ?>>
-                    <span class="imovel-tipo-badge"><?php echo e(ucfirst($imovel->tipo ?? 'Imóvel')); ?></span>
-                </div>
+        <a href="<?php echo e(route('imoveis.show', $imovel)); ?>" class="property-card-link"> 
+            <article class="imovel-card">
+
+                             
+                    <div class="imovel-img-wrap">
+                        <?php if(!empty($imovel->imagens) && count($imovel->imagens) > 0): ?>
+                            <img src="<?php echo e(Storage::url($imovel->imagens[0])); ?>" 
+                                class="imovel-img" 
+                                alt="<?php echo e($imovel->titulo); ?>"
+                                onerror="this.src='https://via.placeholder.com/600x400?text=Sem+Imagem'">
+                        <?php else: ?>
+                            <div class="imovel-img-placeholder">
+                                <span>Sem imagem</span>
+                            </div>
+                        <?php endif; ?>>
+                        <span class="imovel-tipo-badge"><?php echo e(ucfirst($imovel->tipo ?? 'Imóvel')); ?></span>
+                    </div>
 
                 <div class="imovel-body">
                     <h3 class="imovel-titulo"><?php echo e($imovel->titulo); ?></h3>
@@ -419,7 +422,8 @@
                         </span>
                     </div>
                 </div>
-            </article>
+            </article>  
+        </a>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <div class="empty-state">
                 <h3>Nenhum imóvel encontrado</h3>
