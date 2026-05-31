@@ -95,6 +95,10 @@
             <a href="{{ route('imoveis.edit', $imovel) }}" class="btn">
                 Editar imóvel
             </a>
+        @else
+            <a href="#" class="btn">
+                Intereçado
+            </a>
         @endif
     @endauth
 </div>

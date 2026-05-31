@@ -372,23 +372,26 @@
 
 {{-- GRID ───────────────────────────────────────────────── --}}
 <section class="feed-section">
+    
     <div class="imoveis-grid">
         @forelse($imoveis as $imovel)
-            <article class="imovel-card" onclick="showImageGallery({{ $imovel->id }})">
-                
-                <div class="imovel-img-wrap">
-                    @if(!empty($imovel->imagens) && count($imovel->imagens) > 0)
-                        <img src="{{ Storage::url($imovel->imagens[0]) }}" 
-                             class="imovel-img" 
-                             alt="{{ $imovel->titulo }}"
-                             onerror="this.src='https://via.placeholder.com/600x400?text=Sem+Imagem'">
-                    @else
-                        <div class="imovel-img-placeholder">
-                            <span>Sem imagem</span>
-                        </div>
-                    @endif>
-                    <span class="imovel-tipo-badge">{{ ucfirst($imovel->tipo ?? 'Imóvel') }}</span>
-                </div>
+        <a href="{{ route('imoveis.show', $imovel) }}" class="property-card-link"> 
+            <article class="imovel-card">
+
+                             
+                    <div class="imovel-img-wrap">
+                        @if(!empty($imovel->imagens) && count($imovel->imagens) > 0)
+                            <img src="{{ Storage::url($imovel->imagens[0]) }}" 
+                                class="imovel-img" 
+                                alt="{{ $imovel->titulo }}"
+                                onerror="this.src='https://via.placeholder.com/600x400?text=Sem+Imagem'">
+                        @else
+                            <div class="imovel-img-placeholder">
+                                <span>Sem imagem</span>
+                            </div>
+                        @endif>
+                        <span class="imovel-tipo-badge">{{ ucfirst($imovel->tipo ?? 'Imóvel') }}</span>
+                    </div>
 
                 <div class="imovel-body">
                     <h3 class="imovel-titulo">{{ $imovel->titulo }}</h3>
@@ -419,7 +422,8 @@
                         </span>
                     </div>
                 </div>
-            </article>
+            </article>  
+        </a>
         @empty
             <div class="empty-state">
                 <h3>Nenhum imóvel encontrado</h3>
