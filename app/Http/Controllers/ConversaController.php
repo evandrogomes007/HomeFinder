@@ -17,13 +17,26 @@ class ConversaController extends Controller
         
         $conversas = Conversa::where('cliente_id', $user->id)
             ->orWhere('vendedor_id', $user->id)
-            ->with(['mensagens' => function($query) {
-                $query->latest()->limit(1);
-            }, 'imovel', 'cliente', 'vendedor'])
+            ->with([
+                'mensagens' => function($q) {
+                    $q->latest()->limit(1);
+                },
+                'imovel',
+                'cliente',
+                'vendedor'
+            ])
             ->latest()
             ->get();
 
-        return view('pages.conversas', compact('conversas'));
+        // Contar mensagens não lidas
+        $naoLidas = Mensagem::whereHas('conversa', function($q) use ($user) {
+            $q->where('cliente_id', $user->id)->orWhere('vendedor_id', $user->id);
+        })
+        ->where('lida', false)
+        ->where('remetente_id', '!=', $user->id)
+        ->count();
+
+        return view('pages.conversas', compact('conversas', 'naoLidas'));
     }
 
     public function showOrCreate(Imovel $imovel)
@@ -34,7 +47,7 @@ class ConversaController extends Controller
             'cliente_id' => $cliente->id,
             'imovel_id'  => $imovel->id,
         ], [
-            'vendedor_id' => $imovel->cliente_id, // ou vendedor_id, dependendo do seu modelo
+            'vendedor_id' => $imovel->user_id ?? $imovel->cliente_id, // ajuste conforme seu modelo
         ]);
 
         return redirect()->route('conversas.show', $conversa);
@@ -45,8 +58,14 @@ class ConversaController extends Controller
         $user = Auth::user();
 
         if ($conversa->cliente_id !== $user->id && $conversa->vendedor_id !== $user->id) {
-            abort(403, 'Acesso negado.');
+            abort(403);
         }
+
+        // Marcar mensagens como lidas
+        Mensagem::where('conversa_id', $conversa->id)
+                ->where('remetente_id', '!=', $user->id)
+                ->where('lida', false)
+                ->update(['lida' => true]);
 
         $mensagens = $conversa->mensagens()->with('remetente')->orderBy('created_at')->get();
 
@@ -61,16 +80,16 @@ class ConversaController extends Controller
             abort(403);
         }
 
-        $request->validate([
-            'mensagem' => 'required|string|max:1000'
-        ]);
+        $request->validate(['mensagem' => 'required|string|max:1000']);
 
         Mensagem::create([
             'conversa_id' => $conversa->id,
             'remetente_id' => $user->id,
             'mensagem' => $request->mensagem,
+            'lida' => false,
         ]);
 
-        return redirect()->route('conversas.show', $conversa);
+        return redirect()->route('conversas.show', $conversa)
+                         ->with('success', 'Mensagem enviada!');
     }
 }

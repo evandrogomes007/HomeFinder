@@ -4,7 +4,7 @@
 
 @section('head')
 <style>
-    .chat-container {
+    .chat-wrap {
         background: var(--gray-100);
         min-height: calc(100vh - 68px);
         padding: 32px 16px;
@@ -12,7 +12,7 @@
     .chat-box {
         max-width: 860px;
         margin: 0 auto;
-        background: white;
+        background: var(--white);
         border-radius: var(--radius);
         box-shadow: var(--shadow-md);
         overflow: hidden;
@@ -25,6 +25,18 @@
         border-bottom: 1px solid var(--gray-200);
         background: var(--gray-900);
         color: white;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    .chat-header h2 {
+        color:var(--charcoal);
+    }
+    .chat-header p {
+        color:var(--gray-600);
+    }
+    .chat-header a{
+        color:var(--charcoal);
     }
     .chat-messages {
         flex: 1;
@@ -49,33 +61,28 @@
     }
     .message.received {
         align-self: flex-start;
-        background: white;
+        background: var(--white);
         border: 1px solid var(--gray-200);
         border-bottom-left-radius: 4px;
     }
     .message-time {
         font-size: 0.72rem;
-        opacity: 0.8;
+        opacity: 0.75;
         margin-top: 6px;
-    }
-    .chat-header{
-        color: var(--gray-600);
-    }
-    .flex-1 h2{
-        color:var(--charcoal);
+        text-align: right;
     }
 </style>
 @endsection
 
 @section('content')
-<div class="chat-container">
+<div class="chat-wrap">
     <div class="chat-box">
         <!-- Header -->
-        <div class="chat-header flex items-center gap-4">
-            <a href="{{ route('conversas.index') }}">Voltar</a>
-            <div class="flex-1">
-                <h2 class="font-semibold text-lg">{{ $conversa->imovel->titulo ?? 'Conversa' }}</h2>
-                <p class="text-sm opacity-75">
+        <div class="chat-header">
+            <a href="{{ route('conversas.index') }}" style="color: white; font-size: 1.4rem; text-decoration: none;">←</a>
+            <div style="flex: 1;">
+                <h2 style="margin: 0; font-size: 1.25rem;">{{ $conversa->imovel->titulo ?? 'Conversa' }}</h2>
+                <p style="margin: 4px 0 0; font-size: .9rem; opacity: 0.85;">
                     @if($conversa->vendedor_id === auth()->id())
                         Cliente: {{ $conversa->cliente->primeiro_nome.' '.$conversa->cliente->ultimo_nome ?? '' }}
                     @else
@@ -88,9 +95,9 @@
         <!-- Mensagens -->
         <div id="chat-messages" class="chat-messages">
             @foreach($mensagens as $mensagem)
-                <div class="flex {{ $mensagem->remetente_id === auth()->id() ? 'justify-end' : 'justify-start' }}">
+                <div style="display: flex; {{ $mensagem->remetente_id === auth()->id() ? 'justify-content: flex-end;' : 'justify-content: flex-start;' }}">
                     <div class="message {{ $mensagem->remetente_id === auth()->id() ? 'sent' : 'received' }}">
-                        <p>{{ $mensagem->mensagem }}</p>
+                        <p style="margin: 0;">{{ $mensagem->mensagem }}</p>
                         <p class="message-time">
                             {{ $mensagem->created_at->format('H:i') }}
                         </p>
@@ -99,21 +106,20 @@
             @endforeach
         </div>
 
-        <!-- Formulário -->
+        <!-- Formulário de envio -->
         <form action="{{ route('conversas.mensagens.store', $conversa) }}" 
               method="POST" 
-              class="p-6 border-t bg-white">
+              style="padding: 20px; border-top: 1px solid var(--gray-200); background: var(--white);">
             @csrf
-            <div class="flex gap-3">
+            <div style="display: flex; gap: 12px;">
                 <input type="text" 
                        name="mensagem" 
                        id="mensagem-input"
                        placeholder="Digite sua mensagem..." 
-                       class="flex-1 border border-gray-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand"
-                       autocomplete="off"
+                       style="flex: 1; border: 1px solid var(--gray-300); border-radius: 9999px; padding: 14px 24px; font-size: 1rem;"
                        required>
                 <button type="submit"
-                        class="bg-brand hover:bg-brand/90 text-white px-10 rounded-2xl font-semibold transition">
+                        style="background: var(--brand); color: white; border: none; padding: 0 32px; border-radius: 9999px; font-weight: 600; cursor: pointer;">
                     Enviar
                 </button>
             </div>
@@ -123,9 +129,9 @@
 
 <script>
     // Scroll automático para o final
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
         const chat = document.getElementById('chat-messages');
-        chat.scrollTop = chat.scrollHeight;
+        if (chat) chat.scrollTop = chat.scrollHeight;
     });
 </script>
 @endsection

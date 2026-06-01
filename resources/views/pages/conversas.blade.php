@@ -22,8 +22,7 @@
         overflow: hidden;
         box-shadow: var(--shadow-xs);
         transition: all .22s ease;
-        display: flex;
-        flex-direction: column;
+        margin-bottom: 20px;
     }
     .conversa-card:hover {
         transform: translateY(-4px);
@@ -40,7 +39,6 @@
 
     .conversa-body {
         padding: 20px 24px;
-        flex: 1;
     }
 
     .conversa-footer {
@@ -62,12 +60,25 @@
         overflow: hidden;
     }
 
-    .unread {
-        background: var(--brand);
+    .notification-badge {
+        background: #ef4444;
         color: white;
         font-size: .68rem;
-        padding: 2px 8px;
+        padding: 2px 9px;
         border-radius: 9999px;
+        font-weight: 600;
+    }
+
+    .grid-conversas {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 22px;
+    }
+
+    @media (max-width: 640px) {
+        .grid-conversas {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 @endsection
@@ -76,7 +87,7 @@
 <div class="conversas-wrap">
 
     <div class="conversas-header">
-        <span class="card-eyebrow">Painel de Mensagens</span>
+        <span class="card-eyebrow" style="display:block; margin-bottom:6px;">Painel de Mensagens</span>
         <h1 style="font-family:var(--font-h); font-size:1.9rem; font-weight:900; color:var(--charcoal); margin-bottom:8px;">
             Minhas Conversas
         </h1>
@@ -85,34 +96,32 @@
         </p>
     </div>
 
-    <div class="max-w-[1160px] mx-auto px-5">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 0 20px;">
         @if($conversas->isEmpty())
-            <div class="bg-white rounded-2xl py-20 text-center">
-                <div class="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+            <div style="background: var(--white); border-radius: var(--radius); padding: 90px 24px; text-align: center;">
+                <div style="width: 80px; height: 80px; background: var(--gray-100); border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 36px;">
                     💬
                 </div>
-                <h3 class="text-2xl font-semibold mb-3">Nenhuma conversa ainda</h3>
-                <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                <h3 style="font-family:var(--font-h); font-size:1.5rem; margin-bottom:12px;">Nenhuma conversa ainda</h3>
+                <p style="color: var(--gray-600); max-width: 420px; margin: 0 auto 28px;">
                     Quando você demonstrar interesse em um imóvel ou um cliente entrar em contato, as conversas aparecerão aqui.
                 </p>
-                <a href="{{ route('home') }}" class="btn btn-brand">
-                    Explorar Imóveis
-                </a>
+                <a href="{{ route('home') }}" class="btn btn-brand">Explorar Imóveis</a>
             </div>
         @else
-            <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid-conversas">
                 @foreach($conversas as $conversa)
                     <a href="{{ route('conversas.show', $conversa) }}" class="conversa-card">
                         <div class="conversa-header">
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-semibold text-lg truncate">
+                            <div style="flex: 1; min-width: 0;">
+                                <h3 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 4px;">
                                     {{ $conversa->imovel->titulo ?? 'Imóvel sem título' }}
                                 </h3>
-                                <p class="text-sm text-gray-600">
+                                <p style="font-size: .85rem; color: var(--gray-600);">
                                     @if($conversa->vendedor_id === auth()->id())
-                                        Cliente: {{ $conversa->cliente->nome ?? 'Cliente' }}
+                                        Cliente: {{ $conversa->cliente->primeiro_nome.' '.$conversa->cliente->ultimo_nome ?? '' }}
                                     @else
-                                        Vendedor: {{ $conversa->vendedor->nome ?? 'Vendedor' }}
+                                        Vendedor: {{ $conversa->vendedor->primeiro_nome.' '.$conversa->vendedor->ultimo_nome ?? '' }}
                                     @endif
                                 </p>
                             </div>
@@ -124,7 +133,7 @@
                                     {{ Str::limit($conversa->mensagens->first()->mensagem, 110) }}
                                 </p>
                             @else
-                                <p class="text-gray-400 italic">Iniciar conversa...</p>
+                                <p style="color: var(--gray-400); font-style: italic;">Iniciar conversa...</p>
                             @endif
                         </div>
 
@@ -132,8 +141,13 @@
                             <span>
                                 {{ $conversa->mensagens->first()?->created_at->diffForHumans() ?? 'Nova' }}
                             </span>
-                            @if($conversa->mensagens->where('lida', false)->where('remetente_id', '!=', auth()->id())->count() > 0)
-                                <span class="unread">Nova</span>
+                            
+                            @php
+                                $naoLidas = $conversa->mensagens->where('lida', false)
+                                    ->where('remetente_id', '!=', auth()->id())->count();
+                            @endphp
+                            @if($naoLidas > 0)
+                                <span class="notification-badge">{{ $naoLidas }}</span>
                             @endif
                         </div>
                     </a>

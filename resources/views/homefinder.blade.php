@@ -382,6 +382,13 @@
     </a>
     <nav class="header-nav">
         @auth
+            <a href="{{ route('conversas.index') }}" class="nav-link nav-cta">
+                Conversas
+                @if($naoLidas ?? 0 > 0)
+                    <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">({{ $naoLidas }})</span>
+                @endif
+                
+            </a>
             <a href="{{ route('imoveis.meu') }}" class="nav-link nav-cta">Meus Imóveis</a>
             <a href="{{ route('imoveis.create') }}" class="nav-link nav-cta">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
