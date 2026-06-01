@@ -28,6 +28,8 @@ class Imovel extends Model
         return $this->belongsTo(Cliente::class);
     }
 
+    
+
     public function scopeAtivos($query)
     {
         return $query->where('ativo', true)->where('status', 'disponivel');

@@ -384,8 +384,8 @@
         <?php if(auth()->guard()->check()): ?>
             <a href="<?php echo e(route('conversas.index')); ?>" class="nav-link nav-cta">
                 Conversas
-                <?php if($naoLidas ?? 0 > 0): ?>
-                    <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">(<?php echo e($naoLidas); ?>)</span>
+                <?php if($naoLidas ?? false): ?>
+                    <span>(<?php echo e($naoLidas); ?>)</span>
                 <?php endif; ?>
                 
             </a>

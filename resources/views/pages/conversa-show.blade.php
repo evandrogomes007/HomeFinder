@@ -52,6 +52,7 @@
         padding: 14px 20px;
         border-radius: 18px;
         line-height: 1.5;
+        color:var(--gray-600);
     }
     .message.sent {
         align-self: flex-end;
@@ -79,7 +80,7 @@
     <div class="chat-box">
         <!-- Header -->
         <div class="chat-header">
-            <a href="{{ route('conversas.index') }}" style="color: white; font-size: 1.4rem; text-decoration: none;">←</a>
+            <a href="{{ route('conversas.index') }}" style="background: var(--brand); color: white; border: none; padding: 5px 5px; border-radius: 50%; cursor: pointer;">«</a>
             <div style="flex: 1;">
                 <h2 style="margin: 0; font-size: 1.25rem;">{{ $conversa->imovel->titulo ?? 'Conversa' }}</h2>
                 <p style="margin: 4px 0 0; font-size: .9rem; opacity: 0.85;">

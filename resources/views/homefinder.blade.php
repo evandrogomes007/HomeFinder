@@ -384,8 +384,8 @@
         @auth
             <a href="{{ route('conversas.index') }}" class="nav-link nav-cta">
                 Conversas
-                @if($naoLidas ?? 0 > 0)
-                    <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">({{ $naoLidas }})</span>
+                @if($naoLidas ?? false)
+                    <span>({{ $naoLidas }})</span>
                 @endif
                 
             </a>

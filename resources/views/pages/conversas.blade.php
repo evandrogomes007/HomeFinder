@@ -99,9 +99,6 @@
     <div style="max-width: 1160px; margin: 0 auto; padding: 0 20px;">
         @if($conversas->isEmpty())
             <div style="background: var(--white); border-radius: var(--radius); padding: 90px 24px; text-align: center;">
-                <div style="width: 80px; height: 80px; background: var(--gray-100); border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 36px;">
-                    💬
-                </div>
                 <h3 style="font-family:var(--font-h); font-size:1.5rem; margin-bottom:12px;">Nenhuma conversa ainda</h3>
                 <p style="color: var(--gray-600); max-width: 420px; margin: 0 auto 28px;">
                     Quando você demonstrar interesse em um imóvel ou um cliente entrar em contato, as conversas aparecerão aqui.

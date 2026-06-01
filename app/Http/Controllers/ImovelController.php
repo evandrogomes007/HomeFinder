@@ -89,11 +89,22 @@ class ImovelController extends Controller
     }
 
 
-    public function meusImoveis()
+    public function meusImoveis(Request $request)
     {
         $imoveis = Imovel::where('cliente_id', Auth::id())
+            ->ativos()
+            ->when($request->filled('busca'), function ($q) use ($request) {
+                $busca = $request->busca;
+                $q->where(function ($q2) use ($busca) {
+                    $q2->where('titulo', 'like', "%{$busca}%")
+                       ->orWhere('descricao', 'like', "%{$busca}%")
+                       ->orWhere('localizacao', 'like', "%{$busca}%")
+                       ->orWhere('tipo', 'like', "%{$busca}%");
+                });
+            })
+            ->when($request->filled('tipo'), fn ($q) => $q->where('tipo', $request->tipo))
             ->latest()
-            ->paginate(10);
+            ->paginate(12);
 
         return view('pages.my-properties', compact('imoveis'));
     }
