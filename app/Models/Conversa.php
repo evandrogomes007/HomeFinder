@@ -16,7 +16,7 @@ class Conversa extends Model
     ];
 
     public function cliente() { return $this->belongsTo(Cliente::class); }
-    public function vendedor() { return $this->belongsTo(vendedor::class, 'vendedor_id'); }
+    public function vendedor() { return $this->belongsTo(Cliente::class, 'vendedor_id'); }
     public function imovel() { return $this->belongsTo(Imovel::class); }
     public function mensagens() { return $this->hasMany(Mensagem::class); }
 }

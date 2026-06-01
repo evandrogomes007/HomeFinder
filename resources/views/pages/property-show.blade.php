@@ -1,6 +1,6 @@
 @extends('homefinder')
 
-@section('title', 'Imóvel: '.$imovel->titulo)
+@section('title', $imovel->titulo)
 
 @section('head')
 <style>
@@ -96,8 +96,8 @@
                 Editar imóvel
             </a>
         @else
-            <a href="#" class="btn">
-                Intereçado
+            <a href="{{ route('conversas.imovel', $imovel) }}" class="btn">
+                Interessado
             </a>
         @endif
     @endauth
