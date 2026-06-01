@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Meus Imóveis — HomeFinder'); ?>
 
 <?php $__env->startSection('head'); ?>

@@ -1,6 +1,6 @@
 @extends('homefinder')
 
-@section('title', $imovel->titulo)
+@section('title', 'Imóvel: '.$imovel->titulo)
 
 @section('head')
 <style>
