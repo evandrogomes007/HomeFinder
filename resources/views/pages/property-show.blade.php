@@ -7,7 +7,7 @@
     .property-wrap {
         background: var(--gray-100);
         min-height: calc(100vh - 68px);
-        padding: 48px 16px 80px;
+        padding: 40px 16px 80px;
     }
     .property-header {
         max-width: 1100px;

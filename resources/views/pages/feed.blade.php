@@ -326,9 +326,6 @@
 
 {{-- HERO ───────────────────────────────────────────────── --}}
 <section class="feed-hero">
-    <div class="hero-eyebrow">
-        <span>●</span> {{ $imoveis->total() }} imóveis disponíveis em Angola
-    </div>
     <h1>Encontre o seu imóvel ideal</h1>
     <p>Casas, apartamentos, terrenos e muito mais em todo Angola</p>
 
