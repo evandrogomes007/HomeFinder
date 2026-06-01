@@ -301,19 +301,19 @@
                     <strong>{{ $imoveis->total() }}</strong> imóvel(is) publicado(s)
                     @if(request('tipo'))
                         &nbsp;·&nbsp;
-                        <a href="{{ route('imoveis.index') }}">✕ Limpar filtro</a>
+                        <a href="{{ route('imoveis.meu') }}">✕ Limpar filtro</a>
                     @endif
                 @endif
             </p>
 
             <div class="feed-filters">
-                <a href="{{ route('HomeFinder', ['tipo' => 'casa']) }}"
+                <a href="{{ route('imoveis.meu', ['tipo' => 'casa']) }}"
                 class="filter-chip {{ request('tipo') === 'casa' ? 'active' : '' }}">Casa</a>
-                <a href="{{ route('HomeFinder', ['tipo' => 'apartamento']) }}"
+                <a href="{{ route('imoveis.meu', ['tipo' => 'apartamento']) }}"
                 class="filter-chip {{ request('tipo') === 'apartamento' ? 'active' : '' }}">Apartamento</a>
-                <a href="{{ route('HomeFinder', ['tipo' => 'terreno']) }}"
+                <a href="{{ route('imoveis.meu', ['tipo' => 'terreno']) }}"
                 class="filter-chip {{ request('tipo') === 'terreno' ? 'active' : '' }}">Terreno</a>
-                <a href="{{ route('HomeFinder', ['tipo' => 'comercial']) }}"
+                <a href="{{ route('imoveis.meu', ['tipo' => 'comercial']) }}"
                 class="filter-chip {{ request('tipo') === 'comercial' ? 'active' : '' }}">Comercial</a>
             </div>
         </div>

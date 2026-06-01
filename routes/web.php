@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ConversaController;
 use App\Http\Controllers\ImovelController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,5 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/imoveis/{imovel}', [ImovelController::class, 'destroy'])->name('imoveis.destroy');
     Route::get('/imoveis/{imovel}/editar', [ImovelController::class, 'edit'])->name('imoveis.edit');
     Route::put('/imoveis/{imovel}', [ImovelController::class, 'update'])->name('imoveis.update');
+
+    // Conversas
+    Route::get('/conversas', [ConversaController::class, 'index'])->name('conversas.index');
+    Route::get('/conversas/imovel/{imovel}', [ConversaController::class, 'showOrCreate'])->name('conversas.imovel');
+    Route::get('/conversas/{conversa}', [ConversaController::class, 'show'])->name('conversas.show');
+    Route::post('/conversas/{conversa}/mensagens', [ConversaController::class, 'store'])->name('conversas.mensagens.store');
 
 });

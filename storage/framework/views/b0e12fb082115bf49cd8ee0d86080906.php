@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Meus Imóveis — HomeFinder'); ?>
 
 <?php $__env->startSection('head'); ?>
@@ -301,19 +299,19 @@
                     <strong><?php echo e($imoveis->total()); ?></strong> imóvel(is) publicado(s)
                     <?php if(request('tipo')): ?>
                         &nbsp;·&nbsp;
-                        <a href="<?php echo e(route('imoveis.index')); ?>">✕ Limpar filtro</a>
+                        <a href="<?php echo e(route('imoveis.meu')); ?>">✕ Limpar filtro</a>
                     <?php endif; ?>
                 <?php endif; ?>
             </p>
 
             <div class="feed-filters">
-                <a href="<?php echo e(route('HomeFinder', ['tipo' => 'casa'])); ?>"
+                <a href="<?php echo e(route('imoveis.meu', ['tipo' => 'casa'])); ?>"
                 class="filter-chip <?php echo e(request('tipo') === 'casa' ? 'active' : ''); ?>">Casa</a>
-                <a href="<?php echo e(route('HomeFinder', ['tipo' => 'apartamento'])); ?>"
+                <a href="<?php echo e(route('imoveis.meu', ['tipo' => 'apartamento'])); ?>"
                 class="filter-chip <?php echo e(request('tipo') === 'apartamento' ? 'active' : ''); ?>">Apartamento</a>
-                <a href="<?php echo e(route('HomeFinder', ['tipo' => 'terreno'])); ?>"
+                <a href="<?php echo e(route('imoveis.meu', ['tipo' => 'terreno'])); ?>"
                 class="filter-chip <?php echo e(request('tipo') === 'terreno' ? 'active' : ''); ?>">Terreno</a>
-                <a href="<?php echo e(route('HomeFinder', ['tipo' => 'comercial'])); ?>"
+                <a href="<?php echo e(route('imoveis.meu', ['tipo' => 'comercial'])); ?>"
                 class="filter-chip <?php echo e(request('tipo') === 'comercial' ? 'active' : ''); ?>">Comercial</a>
             </div>
         </div>

@@ -415,7 +415,7 @@
                             @endif
                         </div>
                         <span class="imovel-vendedor">
-                            {{ $imovel->cliente->primeiro_nome ?? 'Vendedor' }}
+                            {{ $imovel->cliente->primeiro_nome.' '.$imovel->cliente->ultimo_nome ?? 'Vendedor' }}
                         </span>
                     </div>
                 </div>

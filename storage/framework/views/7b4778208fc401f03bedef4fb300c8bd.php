@@ -417,7 +417,7 @@
                             <?php endif; ?>
                         </div>
                         <span class="imovel-vendedor">
-                            <?php echo e($imovel->cliente->primeiro_nome ?? 'Vendedor'); ?>
+                            <?php echo e($imovel->cliente->primeiro_nome.' '.$imovel->cliente->ultimo_nome ?? 'Vendedor'); ?>
 
                         </span>
                     </div>

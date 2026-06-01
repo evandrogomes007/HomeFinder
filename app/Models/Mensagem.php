@@ -9,10 +9,23 @@ class Mensagem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'conversa_id',
-        'remetente_id',
-        'mensagem',
-        'lida'
-    ];
+    protected $table = 'mensagens';
+
+    protected $fillable = ['conversa_id', 'remetente_id', 'mensagem', 'lida'];
+
+    public function conversa()
+    {
+        return $this->belongsTo(Conversa::class);
+    }
+
+    public function remetente()
+    {
+        return $this->belongsTo(Cliente::class, 'remetente_id'); // ou User se unificado
+    }
+
+    // Marcar como lida
+    public function marcarComoLida()
+    {
+        $this->update(['lida' => true]);
+    }
 }
